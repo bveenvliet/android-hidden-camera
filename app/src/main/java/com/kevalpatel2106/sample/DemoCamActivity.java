@@ -35,6 +35,7 @@ import com.androidhiddencamera.HiddenCameraUtils;
 import com.androidhiddencamera.config.CameraFacing;
 import com.androidhiddencamera.config.CameraFocus;
 import com.androidhiddencamera.config.CameraImageFormat;
+import com.androidhiddencamera.config.CameraImageJpegQuality;
 import com.androidhiddencamera.config.CameraResolution;
 import com.androidhiddencamera.config.CameraRotation;
 
@@ -52,10 +53,11 @@ public class DemoCamActivity extends HiddenCameraActivity {
 
         mCameraConfig = new CameraConfig()
                 .getBuilder(this)
-                .setCameraFacing(CameraFacing.FRONT_FACING_CAMERA)
+                .setCameraFacing(CameraFacing.REAR_FACING_CAMERA)
                 .setCameraResolution(CameraResolution.HIGH_RESOLUTION)
                 .setImageFormat(CameraImageFormat.FORMAT_JPEG)
-                .setImageRotation(CameraRotation.ROTATION_270)
+                .setImageQuality(CameraImageJpegQuality.QUALITY_JPEG_100)
+                .setImageRotation(CameraRotation.ROTATION_0)
                 .setCameraFocus(CameraFocus.AUTO)
                 .build();
 

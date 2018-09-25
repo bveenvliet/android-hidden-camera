@@ -32,7 +32,9 @@ import com.androidhiddencamera.HiddenCameraUtils;
 import com.androidhiddencamera.config.CameraFacing;
 import com.androidhiddencamera.config.CameraFocus;
 import com.androidhiddencamera.config.CameraImageFormat;
+import com.androidhiddencamera.config.CameraImageJpegQuality;
 import com.androidhiddencamera.config.CameraResolution;
+import com.androidhiddencamera.config.CameraRotation;
 
 import java.io.File;
 
@@ -58,9 +60,11 @@ public class DemoCamService extends HiddenCameraService {
             if (HiddenCameraUtils.canOverDrawOtherApps(this)) {
                 CameraConfig cameraConfig = new CameraConfig()
                         .getBuilder(this)
-                        .setCameraFacing(CameraFacing.FRONT_FACING_CAMERA)
-                        .setCameraResolution(CameraResolution.MEDIUM_RESOLUTION)
+                        .setCameraFacing(CameraFacing.REAR_FACING_CAMERA)
+                        .setCameraResolution(CameraResolution.HIGH_RESOLUTION)
+                        .setImageQuality(CameraImageJpegQuality.QUALITY_JPEG_80)
                         .setImageFormat(CameraImageFormat.FORMAT_JPEG)
+                        .setImageRotation(CameraRotation.ROTATION_0)
                         .setCameraFocus(CameraFocus.AUTO)
                         .build();
 

@@ -24,10 +24,14 @@ import android.support.annotation.Nullable;
 import com.androidhiddencamera.config.CameraFacing;
 import com.androidhiddencamera.config.CameraFocus;
 import com.androidhiddencamera.config.CameraImageFormat;
+import com.androidhiddencamera.config.CameraImageJpegQuality;
 import com.androidhiddencamera.config.CameraResolution;
 import com.androidhiddencamera.config.CameraRotation;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Keval on 12-Nov-16.
@@ -46,6 +50,9 @@ public final class CameraConfig {
 
     @CameraImageFormat.SupportedImageFormat
     private int mImageFormat = CameraImageFormat.FORMAT_JPEG;
+
+    @CameraImageJpegQuality.SupportedImageQuality
+    private int mImageQuality = CameraImageJpegQuality.QUALITY_JPEG_100;
 
     @CameraRotation.SupportedRotation
     private int mImageRotation = CameraRotation.ROTATION_0;
@@ -91,6 +98,11 @@ public final class CameraConfig {
     @CameraImageFormat.SupportedImageFormat
     int getImageFormat() {
         return mImageFormat;
+    }
+
+    @CameraImageJpegQuality.SupportedImageQuality
+    int getImageQuality() {
+        return mImageQuality;
     }
 
     File getImageFile() {
@@ -194,6 +206,21 @@ public final class CameraConfig {
             return this;
         }
 
+        public Builder setImageQuality(@CameraImageJpegQuality.SupportedImageQuality int imageQuality) {
+            //Validate input
+            if (imageQuality != CameraImageJpegQuality.QUALITY_JPEG_100 &&
+                    imageQuality != CameraImageJpegQuality.QUALITY_JPEG_90 &&
+                    imageQuality != CameraImageJpegQuality.QUALITY_JPEG_80 &&
+                    imageQuality != CameraImageJpegQuality.QUALITY_JPEG_60 &&
+                    imageQuality != CameraImageJpegQuality.QUALITY_JPEG_40 &&
+                    imageQuality != CameraImageJpegQuality.QUALITY_JPEG_20 &&
+                    imageQuality != CameraImageJpegQuality.QUALITY_JPEG_0) {
+                throw new RuntimeException("Invalid output image quality.");
+            }
+            mImageQuality = imageQuality;
+            return this;
+        }
+
         /**
          * Specify the output image rotation. The output image will be rotated by amount of degree specified
          * before stored to the output file. By default there is no rotation applied.
@@ -243,13 +270,14 @@ public final class CameraConfig {
 
         /**
          * Get the new file to store the image if there isn't any custom file location available.
-         * This will create new file into the cache directory of the application.
+         * This will create new file into the shared DCIM/Camera directory
          */
         @NonNull
         private File getDefaultStorageFile() {
-            return new File(HiddenCameraUtils.getCacheDir(mContext).getAbsolutePath()
+            String filename = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
+            return new File(HiddenCameraUtils.getPhotosDir()
                     + File.separator
-                    + "IMG_" + System.currentTimeMillis()   //IMG_214515184113123.png
+                    + "IMG_" + filename
                     + (mImageFormat == CameraImageFormat.FORMAT_JPEG ? ".jpeg" : ".png"));
         }
     }

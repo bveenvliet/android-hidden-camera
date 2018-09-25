@@ -182,7 +182,6 @@ class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
 
         try {
             stopPreviewAndFreeCamera();
-
             mCamera = Camera.open(id);
             qOpened = (mCamera != null);
         } catch (Exception e) {
@@ -223,7 +222,8 @@ class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
                             //Save image to the file.
                             if (HiddenCameraUtils.saveImageFromFile(rotatedBitmap,
                                     mCameraConfig.getImageFile(),
-                                    mCameraConfig.getImageFormat())) {
+                                    mCameraConfig.getImageFormat(),
+                                    mCameraConfig.getImageQuality())) {
                                 //Post image file to the main thread
                                 new android.os.Handler(Looper.getMainLooper()).post(new Runnable() {
                                     @Override
